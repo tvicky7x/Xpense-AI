@@ -2,28 +2,17 @@ import { useContext } from "react";
 import "./App.css";
 import Context from "./Context/Context";
 import { Route, Routes } from "react-router-dom";
+import LoginForm from "./Components/Auth/LoginForm";
 
 function App() {
   const ctx = useContext(Context);
   return (
-    <div>
+    <>
       <Routes>
         <Route path="/" element={<p>Home</p>} />
-        <Route
-          path="/test"
-          element={
-            <h1
-              className=" text-4xl font-bold"
-              style={{ fontFamily: "Orbitron" }}
-            >
-              Xpense AI
-            </h1>
-          }
-        />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
-
-      <p>this is a test paragraph what should i do</p>
-    </div>
+    </>
   );
 }
 
