@@ -86,7 +86,7 @@ function LoginForm() {
           <h2 className=" text-lime-950 font-semibold text-2xl text-center">
             {isLogging ? "Log In" : "Sign Up"}
           </h2>
-          <div className=" my-3">
+          <div className=" my-3 text-slate-800">
             <form action="" onSubmit={authHandler}>
               <div className=" space-y-1 mb-1">
                 <label htmlFor="" className=" text-lg">
@@ -97,7 +97,7 @@ function LoginForm() {
                   style={{ outline: "none" }}
                   required
                   ref={inputRef}
-                  className=" w-full border rounded border-lime-300 h-9 p-2 text-lime-900 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                  className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                 />
               </div>
               <div className=" space-y-1 mb-1">
@@ -110,7 +110,7 @@ function LoginForm() {
                   required
                   minLength={6}
                   ref={passwordRef}
-                  className=" w-full border rounded border-lime-300 h-9 p-2 text-lime-900 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                  className=" w-full border rounded border-lime-300 h-9 p-2  focus:ring-2 focus:ring-lime-400 focus:border-0"
                 />
               </div>
               {!isLogging && (
@@ -124,7 +124,7 @@ function LoginForm() {
                     required
                     minLength={6}
                     ref={confirmRef}
-                    className=" w-full border rounded border-lime-300 h-9 p-2 text-lime-900 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                    className=" w-full border rounded border-lime-300 h-9 p-2  focus:ring-2 focus:ring-lime-400 focus:border-0"
                   />
                 </div>
               )}
@@ -160,7 +160,7 @@ function LoginForm() {
             Forgot Password
           </h2>
 
-          <div className=" my-3">
+          <div className=" my-3 text-slate-800">
             <p className=" text-slate-600 mb-1">
               Password reset emails will be sent to your provided email address.{" "}
             </p>
@@ -174,7 +174,7 @@ function LoginForm() {
                   style={{ outline: "none" }}
                   required
                   ref={inputRef}
-                  className=" w-full border rounded border-lime-300 h-9 p-2 text-lime-900 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                  className=" w-full border rounded border-lime-300 h-9 p-2  focus:ring-2 focus:ring-lime-400 focus:border-0"
                 />
               </div>
               <div className=" mt-5">

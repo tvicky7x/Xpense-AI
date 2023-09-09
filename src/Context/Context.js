@@ -33,7 +33,12 @@ export function ContextProvider({ children }) {
     const data = response.data.users[0];
     setInfo((oldInfo) => {
       if (data.displayName) {
-        console.log(data);
+        return {
+          emailVerified: data.emailVerified,
+          email: data.email,
+          name: data.displayName,
+          photoUrl: data.photoUrl,
+        };
       }
       return {
         ...oldInfo,
@@ -47,6 +52,9 @@ export function ContextProvider({ children }) {
   // Login Function
   function LoginHandler(id) {
     localStorage.setItem("token", id);
+    setTimeout(() => {
+      localStorage.removeItem("token");
+    }, 1000 * 60 * 5);
     getUserInfo(id);
   }
 

@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <>
       <div className=" bg-lime-500 py-2 px-3 sm:py-3">
-        <div className=" max-w-5xl mx-auto flex justify-end items-center">
+        <div className=" max-w-2xl mx-auto flex justify-end items-center">
           <NavLink to={"/"} className={" me-auto"}>
             <h1
               className=" font-semibold text-2xl sm:text-3xl text-lime-50"
