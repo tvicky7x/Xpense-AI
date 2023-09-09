@@ -31,6 +31,9 @@ export function ContextProvider({ children }) {
     );
     const data = response.data.users[0];
     setInfo((oldInfo) => {
+      if (data.displayName) {
+        console.log(data);
+      }
       return {
         ...oldInfo,
         emailVerified: data.emailVerified,
@@ -57,7 +60,7 @@ export function ContextProvider({ children }) {
   return (
     <Context.Provider
       value={{
-        token: token,
+        token: false,
         LoginHandler: LoginHandler,
         userInfo: userInfo,
         getUserInfo: getUserInfo,
