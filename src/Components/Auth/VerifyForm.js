@@ -27,7 +27,6 @@ function VerifyForm() {
   // check verification
   async function checkVerification() {
     ctx.getUserInfo(ctx.token);
-    navigate("/");
   }
   return (
     <>
@@ -46,7 +45,7 @@ function VerifyForm() {
               <span className=" text-lime-600 font-medium">
                 {ctx.userInfo.email}
               </span>
-              . Check your email.
+              . Please check your email.
             </p>
             <p className=" text-slate-600 mt-2">
               Click here if verification is complete.

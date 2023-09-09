@@ -49,7 +49,7 @@ export function ContextProvider({ children }) {
     getUserInfo(id);
   }
 
-  // useEffect
+  // useEffect;
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const id = localStorage.getItem("token");
@@ -60,7 +60,7 @@ export function ContextProvider({ children }) {
   return (
     <Context.Provider
       value={{
-        token: false,
+        token: token,
         LoginHandler: LoginHandler,
         userInfo: userInfo,
         getUserInfo: getUserInfo,

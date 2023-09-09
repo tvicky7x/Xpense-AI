@@ -42,7 +42,6 @@ function LoginForm() {
         );
         ctx.LoginHandler(response.data.idToken);
         e.target.reset();
-        navigate("..");
       } catch (error) {
         alert("Authentication Error!");
       }

@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
 import Context from "../Context/Context";
+import LoginForm from "../Components/Auth/LoginForm";
+import VerifyForm from "../Components/Auth/VerifyForm";
 
 function ProtectPage({ children }) {
   const ctx = useContext(Context);
   if (!ctx.token) {
-    return <Navigate to={"/auth"} />;
+    return <LoginForm />;
   } else if (!ctx.userInfo.emailVerified) {
-    return <Navigate to={"/verify"} />;
+    return <VerifyForm />;
   }
   return <div>{children}</div>;
 }

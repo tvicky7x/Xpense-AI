@@ -1,10 +1,7 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectPage from "./Pages/ProtectPage";
-import Home from "./Pages/Home";
-import Verify from "./Pages/Verify";
-import Auth from "./Pages/Auth";
-import RedirectPage from "./Pages/RedirectPage";
+import Root from "./Pages/Root";
 
 function App() {
   return (
@@ -14,26 +11,11 @@ function App() {
           path="/"
           element={
             <ProtectPage>
-              <Home />
+              <Root />
             </ProtectPage>
           }
-        />
-        <Route
-          path="/auth"
-          element={
-            <RedirectPage>
-              <Auth />
-            </RedirectPage>
-          }
-        />
-        <Route
-          path="/verify"
-          element={
-            <RedirectPage>
-              <Verify />
-            </RedirectPage>
-          }
-        />
+        ></Route>
+        <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
     </>
   );
