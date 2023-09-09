@@ -1,8 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Card from "../Containers/Card";
 import axios from "axios";
+import ButtonPrimary from "../Containers/ButtonPrimary";
+import Context from "../../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  //  navigate
+  const navigate = useNavigate();
+
+  // Context
+  const ctx = useContext(Context);
+
   // Ref
   const inputRef = useRef();
   const passwordRef = useRef();
@@ -26,8 +35,9 @@ function LoginForm() {
           "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
           { email: email, password: password, returnSecureToken: true }
         );
-        console.log(response);
+        ctx.LoginHandler(response.data.idToken);
         e.target.reset();
+        navigate("..");
       } catch (error) {
         alert("Authentication Error!");
       }
@@ -56,7 +66,7 @@ function LoginForm() {
         <h2 className=" text-lime-950 font-semibold text-2xl text-center">
           {isLogging ? "Log In" : "Sign Up"}
         </h2>
-        <div className=" my-4">
+        <div className=" my-3">
           <form action="" onSubmit={authHandler}>
             <div className=" space-y-1 mb-1">
               <label htmlFor="" className=" text-lg">
@@ -100,12 +110,9 @@ function LoginForm() {
             )}
 
             <div className=" mt-5">
-              <button
-                type="submit"
-                className=" bg-lime-400 w-full p-1.5 rounded hover:bg-lime-500 font-semibold text-lime-950"
-              >
+              <ButtonPrimary type="submit" className="w-full">
                 {isLogging ? "Log In" : "Sign Up"}
-              </button>
+              </ButtonPrimary>
             </div>
           </form>
           {isLogging && (

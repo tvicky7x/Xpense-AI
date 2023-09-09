@@ -1,16 +1,39 @@
-import { useContext } from "react";
 import "./App.css";
-import Context from "./Context/Context";
 import { Route, Routes } from "react-router-dom";
-import LoginForm from "./Components/Auth/LoginForm";
+import ProtectPage from "./Pages/ProtectPage";
+import Home from "./Pages/Home";
+import Verify from "./Pages/Verify";
+import Auth from "./Pages/Auth";
+import RedirectPage from "./Pages/RedirectPage";
 
 function App() {
-  const ctx = useContext(Context);
   return (
     <>
       <Routes>
-        <Route path="/" element={<p>Home</p>} />
-        <Route path="/auth" element={<LoginForm />} />
+        <Route
+          path="/"
+          element={
+            <ProtectPage>
+              <Home />
+            </ProtectPage>
+          }
+        />
+        <Route
+          path="/auth"
+          element={
+            <RedirectPage>
+              <Auth />
+            </RedirectPage>
+          }
+        />
+        <Route
+          path="/verify"
+          element={
+            <RedirectPage>
+              <Verify />
+            </RedirectPage>
+          }
+        />
       </Routes>
     </>
   );
