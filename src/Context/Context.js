@@ -11,6 +11,7 @@ const Context = createContext({
     photoUrl: null,
   },
   getUserInfo: (id) => {},
+  LogOutHandler: () => {},
 });
 
 export function ContextProvider({ children }) {
@@ -49,6 +50,18 @@ export function ContextProvider({ children }) {
     getUserInfo(id);
   }
 
+  // LogOut Function
+  function LogOutHandler() {
+    localStorage.removeItem("token");
+    setInfo({
+      email: null,
+      name: null,
+      emailVerified: null,
+      photoUrl: null,
+    });
+    setToken(null);
+  }
+
   // useEffect;
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -64,6 +77,7 @@ export function ContextProvider({ children }) {
         LoginHandler: LoginHandler,
         userInfo: userInfo,
         getUserInfo: getUserInfo,
+        LogOutHandler: LogOutHandler,
       }}
     >
       {children}
