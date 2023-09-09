@@ -16,7 +16,10 @@ function ProfileUpdate() {
   async function updateUserInfo(e) {
     e.preventDefault();
     const name = nameRef.current.value;
-    const photoUrl = photoRef.current.value;
+    let photoUrl = photoRef.current.value;
+    if (ctx.userInfo.photoUrl && !photoUrl) {
+      photoUrl = ctx.userInfo.photoUrl;
+    }
     try {
       await axios.post(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
