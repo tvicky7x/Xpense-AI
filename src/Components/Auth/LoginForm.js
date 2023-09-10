@@ -83,7 +83,10 @@ function LoginForm() {
     <>
       {!isForgot && (
         <Card>
-          <h2 className=" text-lime-950 font-semibold text-2xl text-center">
+          <h2
+            className=" newFont text-lime-500 font-semibold text-2xl text-center"
+            style={{ fontFamily: "'Cabin', sans-serif" }}
+          >
             {isLogging ? "Log In" : "Sign Up"}
           </h2>
           <div className=" my-3 text-slate-800">
@@ -156,7 +159,7 @@ function LoginForm() {
 
       {isForgot && (
         <Card>
-          <h2 className=" text-lime-950 font-semibold text-2xl text-center">
+          <h2 className=" newFont text-lime-500 font-semibold text-2xl text-center">
             Forgot Password
           </h2>
 

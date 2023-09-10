@@ -26,27 +26,31 @@ export function ContextProvider({ children }) {
 
   // Get UserInfo
   const getUserInfo = useCallback(async (id) => {
-    const response = await axios.post(
-      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
-      { idToken: id }
-    );
-    const data = response.data.users[0];
-    setInfo((oldInfo) => {
-      if (data.displayName) {
+    try {
+      const response = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
+        { idToken: id }
+      );
+      const data = response.data.users[0];
+      setInfo((oldInfo) => {
+        if (data.displayName) {
+          return {
+            emailVerified: data.emailVerified,
+            email: data.email,
+            name: data.displayName,
+            photoUrl: data.photoUrl,
+          };
+        }
         return {
+          ...oldInfo,
           emailVerified: data.emailVerified,
           email: data.email,
-          name: data.displayName,
-          photoUrl: data.photoUrl,
         };
-      }
-      return {
-        ...oldInfo,
-        emailVerified: data.emailVerified,
-        email: data.email,
-      };
-    });
-    setToken(id);
+      });
+      setToken(id);
+    } catch (error) {
+      LogOutHandler();
+    }
   }, []);
 
   // Login Function

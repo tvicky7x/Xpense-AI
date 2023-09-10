@@ -1,3 +1,7 @@
 body {
   background-color: #f7fee7;
 }
+
+.newFont {
+  font-family: "Cabin", sans-serif;
+}

@@ -31,7 +31,10 @@ function VerifyForm() {
   return (
     <>
       <Card>
-        <h2 className=" text-lime-950 font-semibold text-2xl text-center mb-3">
+        <h2
+          className=" text-lime-500 font-semibold text-2xl text-center mb-3"
+          style={{ fontFamily: "'Cabin', sans-serif" }}
+        >
           Verify Email
         </h2>
         {isVerifying ? (
