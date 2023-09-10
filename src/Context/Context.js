@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useCallback, useEffect, useState } from "react";
+import { categoriesExpense, categoriesIncome } from "./Categories";
 
 const Context = createContext({
   token: null,
@@ -12,6 +13,8 @@ const Context = createContext({
   },
   getUserInfo: (id) => {},
   LogOutHandler: () => {},
+  expenseCategories: [],
+  incomeCategories: [],
 });
 
 export function ContextProvider({ children }) {
@@ -23,6 +26,8 @@ export function ContextProvider({ children }) {
     emailVerified: null,
     photoUrl: null,
   });
+  const [expenseCategories, setExpenseCategories] = useState(categoriesExpense);
+  const [incomeCategories, setIncomeCategories] = useState(categoriesIncome);
 
   // Get UserInfo
   const getUserInfo = useCallback(async (id) => {
@@ -90,6 +95,8 @@ export function ContextProvider({ children }) {
         userInfo: userInfo,
         getUserInfo: getUserInfo,
         LogOutHandler: LogOutHandler,
+        expenseCategories: expenseCategories,
+        incomeCategories: incomeCategories,
       }}
     >
       {children}
