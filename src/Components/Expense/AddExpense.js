@@ -5,6 +5,7 @@ import ToggleButton from "../Containers/ToggleButton";
 import Context from "../../Context/Context";
 import ButtonPrimary from "../Containers/ButtonPrimary";
 import DropDown from "./DropDown";
+import axios from "axios";
 
 function AddExpense({
   alternatingAdding,
@@ -57,7 +58,11 @@ function AddExpense({
         time: time,
         note: note,
       };
-      console.log(expense);
+      await axios.put(
+        `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
+        { allExpenseList: [...ctx.allExpenseList, expense] }
+      );
+      ctx.addingExpenseInContext(expense);
       e.target.reset();
     }
   }
@@ -107,7 +112,7 @@ function AddExpense({
                 style={{ outline: "none" }}
                 required
                 min={1}
-                value={expenseItem.amount}
+                defaultValue={expenseItem.amount}
                 ref={amountRef}
                 className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
               />
@@ -123,7 +128,7 @@ function AddExpense({
                     style={{ outline: "none" }}
                     required
                     ref={dataRef}
-                    value={expenseItem.data}
+                    defaultValue={expenseItem.data}
                     className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                   />
                 </div>
@@ -136,7 +141,7 @@ function AddExpense({
                     style={{ outline: "none" }}
                     required
                     ref={timeRef}
-                    value={expenseItem.time}
+                    defaultValue={expenseItem.time}
                     className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                   />
                 </div>
@@ -152,7 +157,7 @@ function AddExpense({
                 id=""
                 rows="2"
                 ref={noteRef}
-                value={expenseItem.note}
+                defaultValue={expenseItem.note}
                 style={{ outline: "none" }}
               />
             </div>
