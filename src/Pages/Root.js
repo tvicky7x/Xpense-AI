@@ -20,7 +20,7 @@ function Home() {
       <Outlet />
       <PulseButton
         onClick={alternatingAdding}
-        className=" fixed right-5 bottom-5"
+        className=" fixed right-6 bottom-6"
       />
     </div>
   );
