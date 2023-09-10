@@ -14,7 +14,7 @@ function SecondNav() {
     <>
       <Container>
         <NormalCard>
-          <div className=" flex justify-around">
+          <div className=" flex justify-evenly">
             <SecondNavItem title="Records" icon="receipt_long" div={true} />
             <SecondNavItem
               title="Analysis"
