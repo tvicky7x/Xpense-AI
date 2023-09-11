@@ -17,12 +17,8 @@ function AddExpense({
       name: "Categories",
       HTMLname: "label",
     },
-    data: `${new Date().getFullYear()}-${String(
-      new Date().getMonth() + 1
-    ).padStart(2, "0")}-${String(new Date().getDate()).padStart(2, "0")}`,
-    time: `${String(new Date().getHours()).padStart(2, "0")}:${String(
-      new Date().getMinutes()
-    ).padStart(2, "0")}`,
+    data: `${new Date().toISOString().slice(0, 10)}`,
+    time: `${new Date().toTimeString().slice(0, 5)}`,
     note: "",
   },
 }) {
