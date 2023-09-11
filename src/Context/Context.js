@@ -141,7 +141,9 @@ export function ContextProvider({ children }) {
 
   // Adding Expense to Context
   function addingExpenseInContext(expense) {
-    setExpenseList((oldExpense)=>{return [...oldExpense,expense]})
+    setExpenseList((oldExpense) => {
+      return [...oldExpense, expense];
+    });
   }
 
   // useEffect;
@@ -153,7 +155,6 @@ export function ContextProvider({ children }) {
     }
   }, [getUserInfo, getUserUniqueId]);
 
-  console.log(allExpenseList);
 
   return (
     <Context.Provider
