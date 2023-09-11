@@ -9,6 +9,7 @@ function Records() {
       <Container>
         <NormalCard>
           <FilterMonth />
+          <div>test</div>
         </NormalCard>
       </Container>
     </>

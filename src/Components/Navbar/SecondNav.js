@@ -25,10 +25,8 @@ function SecondNav() {
             <SecondNavItem
               title="Account"
               icon="account_balance_wallet"
-              div={true}
               path="account"
             />
-            <SecondNavItem title="Categories" icon="label" path="categories" />
           </div>
         </NormalCard>
       </Container>

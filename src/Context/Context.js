@@ -23,8 +23,19 @@ const Context = createContext({
   expenseCategories: [],
   incomeCategories: [],
   allExpenseList: [],
+  allExpenseBalance: {
+    incomeBalance: null,
+    expenseBalance: null,
+    totalBalance: null,
+  },
   getExpenseList: () => {},
   addingExpenseInContext: () => {},
+  currentExpenseList: [],
+  currentExpenseBalance: {
+    incomeBalance: null,
+    expenseBalance: null,
+    totalBalance: null,
+  },
 });
 
 export function ContextProvider({ children }) {
@@ -40,14 +51,24 @@ export function ContextProvider({ children }) {
     photoUrl: null,
     uniqueId: null,
   });
-  const [expenseCategories, setExpenseCategories] = useState(categoriesExpense);
-  const [incomeCategories, setIncomeCategories] = useState(categoriesIncome);
+
   const [allExpenseList, setExpenseList] = useState([]);
+  const [allExpenseBalance, setAllExpenseBalance] = useState({
+    incomeBalance: null,
+    expenseBalance: null,
+    totalBalance: null,
+  });
   const [current, setCurrent] = useState({
     day: Days[new Date().getDay()],
     date: new Date().getDate(),
     month: Months[new Date().getMonth()],
     year: new Date().getFullYear(),
+  });
+  const [currentExpenseList, setCurrentExpenseList] = useState([]);
+  const [currentExpenseBalance, setCurrentExpenseBalance] = useState({
+    incomeBalance: null,
+    expenseBalance: null,
+    totalBalance: null,
   });
 
   // Get UserInfo
@@ -82,6 +103,47 @@ export function ContextProvider({ children }) {
     }
   }, []);
 
+  // Making Balance for Expenses
+  function makeBalance(list) {
+    const expenseBalance = list
+      .filter((item) => item.type === true)
+      .reduce((sum, item) => {
+        return sum + Number(item.amount);
+      }, 0);
+
+    const incomeBalance = list
+      .filter((item) => item.type !== true)
+      .reduce((sum, item) => {
+        return sum + Number(item.amount);
+      }, 0);
+
+    const totalBalance = incomeBalance - expenseBalance;
+
+    return {
+      incomeBalance: incomeBalance,
+      expenseBalance: expenseBalance,
+      totalBalance: totalBalance,
+    };
+  }
+
+  // Getting Expenses from Backend
+  const getExpenseList = useCallback(
+    async (id) => {
+      try {
+        const response = await axios.get(
+          `${fireBaseUrl}/${userInfo.networkEmail}/${id}.json`
+        );
+        if (response.data.allExpenseList !== "NIL") {
+          setAllExpenseBalance(makeBalance(response.data.allExpenseList));
+          setExpenseList(response.data.allExpenseList);
+        }
+      } catch (error) {
+        alert(error.massage);
+      }
+    },
+    [userInfo.networkEmail]
+  );
+
   // Get User Unique Id
   const getUserUniqueId = useCallback(async () => {
     try {
@@ -108,21 +170,7 @@ export function ContextProvider({ children }) {
     } catch (error) {
       alert(error.massage);
     }
-  }, [userInfo.networkEmail]);
-
-  // Getting Expense Details from Backend
-  async function getExpenseList(id) {
-    try {
-      const response = await axios.get(
-        `${fireBaseUrl}/${userInfo.networkEmail}/${id}.json`
-      );
-      if (response.data.allExpenseList !== "NIL") {
-        setExpenseList(response.data.allExpenseList);
-      }
-    } catch (error) {
-      alert(error.massage);
-    }
-  }
+  }, [userInfo.networkEmail, getExpenseList]);
 
   // Login Function
   function LoginHandler(id) {
@@ -182,9 +230,27 @@ export function ContextProvider({ children }) {
           };
         });
       }
-    } else if (type === "year") {
+    } else if (type === "reset") {
+      setCurrent({
+        day: Days[new Date().getDay()],
+        date: new Date().getDate(),
+        month: Months[new Date().getMonth()],
+        year: new Date().getFullYear(),
+      });
     }
   }
+
+  // Filtering allExpenseList to CurrentExpenseList
+  const filterAllExpenseList = useCallback((oldExpense, newCurrent) => {
+    const currentList = oldExpense.filter((item) => {
+      return (
+        new Date(item.date).getMonth() === Months.indexOf(newCurrent.month) &&
+        new Date(item.date).getFullYear() === newCurrent.year
+      );
+    });
+    setCurrentExpenseBalance(makeBalance(currentList));
+    setCurrentExpenseList(currentList);
+  }, []);
 
   // useEffect;
   useEffect(() => {
@@ -194,6 +260,11 @@ export function ContextProvider({ children }) {
       getUserUniqueId();
     }
   }, [getUserInfo, getUserUniqueId]);
+
+  // useEffect for Filter
+  useEffect(() => {
+    filterAllExpenseList(allExpenseList, current);
+  }, [current, allExpenseList, filterAllExpenseList]);
 
   return (
     <Context.Provider
@@ -206,11 +277,14 @@ export function ContextProvider({ children }) {
         changeCurrent: changeCurrent,
         getUserInfo: getUserInfo,
         LogOutHandler: LogOutHandler,
-        expenseCategories: expenseCategories,
-        incomeCategories: incomeCategories,
+        expenseCategories: categoriesExpense,
+        incomeCategories: categoriesIncome,
         allExpenseList: allExpenseList,
+        allExpenseBalance: allExpenseBalance,
         getExpenseList: getExpenseList,
         addingExpenseInContext: addingExpenseInContext,
+        currentExpenseList: currentExpenseList,
+        currentExpenseBalance: currentExpenseBalance,
       }}
     >
       {children}

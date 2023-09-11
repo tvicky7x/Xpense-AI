@@ -5,30 +5,74 @@ function FilterMonth() {
   const ctx = useContext(Context);
   return (
     <>
-      <div className=" flex justify-center items-center text-slate-400">
-        <button className="flex hover:text-lime-500">
-          <span
-            className="material-symbols-outlined"
+      <div className=" mb-3 border-b-2 pb-2">
+        <div className=" flex justify-center items-center text-slate-400 relative">
+          <div className="flex items-center">
+            <button className="flex hover:text-lime-500">
+              <span
+                className="material-symbols-outlined"
+                onClick={() => {
+                  ctx.changeCurrent(-1, "month");
+                }}
+              >
+                arrow_back_ios_new
+              </span>
+            </button>
+            <p className="sm:text-lg newFont text-slate-500 sm:w-40 w-32 text-center">
+              {ctx.current.month}, {ctx.current.year}
+            </p>
+            <button className="flex hover:text-lime-500">
+              <span
+                className="material-symbols-outlined"
+                onClick={() => {
+                  ctx.changeCurrent(1, "month");
+                }}
+              >
+                arrow_forward_ios
+              </span>
+            </button>
+          </div>
+          <button
+            className="flex items-center -ms-5 absolute right-0"
             onClick={() => {
-              ctx.changeCurrent(-1, "month");
+              ctx.changeCurrent(null, "reset");
             }}
           >
-            arrow_back_ios_new
-          </span>
-        </button>
-        <p className=" mx-3 text-lg newFont text-slate-500 w-36 text-center">
-          {ctx.current.month}, {ctx.current.year}
-        </p>
-        <button className="flex hover:text-lime-500">
-          <span
-            className="material-symbols-outlined"
-            onClick={() => {
-              ctx.changeCurrent(1, "month");
-            }}
-          >
-            arrow_forward_ios
-          </span>
-        </button>
+            <span className="material-symbols-outlined hover:text-lime-500">
+              cached
+            </span>
+          </button>
+        </div>
+        <div className=" flex justify-around items-center mt-2 newFont text-slate-500">
+          <div className=" flex flex-col items-center">
+            <p>Expense</p>
+            <p className=" text-red-500">
+              ₹{ctx.currentExpenseBalance.expenseBalance}
+            </p>
+          </div>
+          <div className=" flex flex-col items-center">
+            <p>Income</p>
+            <p className=" text-green-500">
+              ₹{ctx.currentExpenseBalance.incomeBalance}
+            </p>
+          </div>
+          <div className=" flex flex-col items-center">
+            <p>Total</p>
+            <p
+              className={
+                Number(ctx.currentExpenseBalance.totalBalance) >= 0
+                  ? "text-green-500"
+                  : "text-red-500"
+              }
+            >
+              {Number(ctx.currentExpenseBalance.totalBalance) >= 0
+                ? `₹${ctx.currentExpenseBalance.totalBalance}`
+                : `-₹${ctx.currentExpenseBalance.totalBalance
+                    .toString()
+                    .slice(1)}`}
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
