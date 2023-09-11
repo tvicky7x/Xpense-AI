@@ -86,7 +86,14 @@ function AddExpense({
   return (
     <>
       <Modal onClick={alternatingAdding}>
-        <div className=" bg-white drop-shadow-lg rounded p-4 w-80 sm:w-96">
+        <div className=" relative bg-white drop-shadow-lg rounded p-4 w-80 sm:w-96">
+          <button
+            className="absolute top-2 right-2.5 flex rounded hover:bg-lime-500 text-lime-500 hover:text-lime-50 hover:duration-200"
+            onClick={alternatingAdding}
+          >
+            <span className="text-3xl material-symbols-outlined">close</span>
+          </button>
+
           <HeaderTitle
             title={isExpense ? "Add Expense" : "Add Income"}
             icon={isExpense ? "currency_rupee" : "account_balance_wallet"}
