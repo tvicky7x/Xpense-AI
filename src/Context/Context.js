@@ -16,6 +16,8 @@ const Context = createContext({
     uniqueId: null,
   },
   fireBaseUrl: "",
+  addingModal: false,
+  showAddingModal: () => {},
   current: { day: null, date: null, month: null, year: null },
   changeCurrent: () => {},
   getUserInfo: (id) => {},
@@ -70,6 +72,7 @@ export function ContextProvider({ children }) {
     expenseBalance: null,
     totalBalance: null,
   });
+  const [addingModal, setAddingModal] = useState(false);
 
   // Get UserInfo
   const getUserInfo = useCallback(async (id) => {
@@ -197,6 +200,11 @@ export function ContextProvider({ children }) {
     setToken(null);
   }
 
+  //  Showing Adding Modal
+  function showAddingModal() {
+    setAddingModal(!addingModal);
+  }
+
   // Adding Expense to Context
   function addingExpenseInContext(newList) {
     setExpenseList(newList);
@@ -273,6 +281,8 @@ export function ContextProvider({ children }) {
         LoginHandler: LoginHandler,
         userInfo: userInfo,
         fireBaseUrl: fireBaseUrl,
+        addingModal: addingModal,
+        showAddingModal: showAddingModal,
         current: current,
         changeCurrent: changeCurrent,
         getUserInfo: getUserInfo,
