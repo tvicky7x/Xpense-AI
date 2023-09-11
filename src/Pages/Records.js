@@ -2,6 +2,7 @@ import React from "react";
 import Container from "../Components/Containers/Container";
 import NormalCard from "../Components/Containers/NormalCard";
 import FilterMonth from "../Components/Tools/FilterMonth";
+import ExpenseList from "../Components/List/ExpenseList";
 
 function Records() {
   return (
@@ -9,7 +10,7 @@ function Records() {
       <Container>
         <NormalCard>
           <FilterMonth />
-          <div>test</div>
+          <ExpenseList />
         </NormalCard>
       </Container>
     </>

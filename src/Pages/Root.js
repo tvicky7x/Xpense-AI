@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
 import SecondNav from "../Components/Navbar/SecondNav";
@@ -16,7 +16,7 @@ function Home() {
       <SecondNav />
       <Outlet />
       <PulseButton
-        onClick={ctx.showAddingModal}
+        onClick={ctx.editingAddModal}
         className=" fixed right-6 bottom-6"
       />
     </div>

@@ -17,7 +17,21 @@ const Context = createContext({
   },
   fireBaseUrl: "",
   addingModal: false,
-  showAddingModal: () => {},
+  ModalData: {
+    id: "",
+    type: true,
+    amount: "",
+    category: {
+      id: "categories",
+      name: "Categories",
+      HTMLname: "label",
+    },
+    date: "",
+    time: "",
+    note: "",
+  },
+  closeAddingModal: () => {},
+  editingAddModal: () => {},
   current: { day: null, date: null, month: null, year: null },
   changeCurrent: () => {},
   getUserInfo: (id) => {},
@@ -73,6 +87,19 @@ export function ContextProvider({ children }) {
     totalBalance: null,
   });
   const [addingModal, setAddingModal] = useState(false);
+  const [ModalData, setModalData] = useState({
+    id: "",
+    type: true,
+    amount: "",
+    category: {
+      id: "categories",
+      name: "Categories",
+      HTMLname: "label",
+    },
+    date: `${new Date().toISOString().slice(0, 10)}`,
+    time: `${new Date().toTimeString().slice(0, 5)}`,
+    note: "",
+  });
 
   // Get UserInfo
   const getUserInfo = useCallback(async (id) => {
@@ -201,8 +228,41 @@ export function ContextProvider({ children }) {
   }
 
   //  Showing Adding Modal
-  function showAddingModal() {
-    setAddingModal(!addingModal);
+  function closeAddingModal() {
+    setModalData({
+      id: "",
+      type: true,
+      amount: "",
+      category: {
+        id: "categories",
+        name: "Categories",
+        HTMLname: "label",
+      },
+      date: `${new Date().toISOString().slice(0, 10)}`,
+      time: `${new Date().toTimeString().slice(0, 5)}`,
+      note: "",
+    });
+    setAddingModal(false);
+  }
+
+  function editingAddModal(data) {
+    if (!data.amount) {
+      data = {
+        id: "",
+        type: true,
+        amount: "",
+        category: {
+          id: "categories",
+          name: "Categories",
+          HTMLname: "label",
+        },
+        date: `${new Date().toISOString().slice(0, 10)}`,
+        time: `${new Date().toTimeString().slice(0, 5)}`,
+        note: "",
+      };
+    }
+    setModalData(data);
+    setAddingModal(true);
   }
 
   // Adding Expense to Context
@@ -282,7 +342,9 @@ export function ContextProvider({ children }) {
         userInfo: userInfo,
         fireBaseUrl: fireBaseUrl,
         addingModal: addingModal,
-        showAddingModal: showAddingModal,
+        ModalData: ModalData,
+        closeAddingModal: closeAddingModal,
+        editingAddModal: editingAddModal,
         current: current,
         changeCurrent: changeCurrent,
         getUserInfo: getUserInfo,

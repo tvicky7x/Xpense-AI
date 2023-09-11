@@ -27,19 +27,17 @@ function DropDown({ itemList, changeDefault, defaultCategory }) {
         )}
       </div>
       {isOpen && (
-        <div className=" absolute top-full left-0 w-full rounded border">
-          <ul className=" divide-y-2 bg-lime-50 divide-lime-200 max-h-52 overflow-y-scroll">
-            {itemList.map((item) => {
-              return (
-                <DropItem
-                  key={item.id}
-                  data={item}
-                  changeDefault={changeDefault}
-                />
-              );
-            })}
-          </ul>
-        </div>
+        <ul className="absolute top-full left-0 w-full rounded border divide-y-2 bg-lime-50 divide-lime-200 max-h-52 overflow-y-scroll">
+          {itemList.map((item) => {
+            return (
+              <DropItem
+                key={item.id}
+                data={item}
+                changeDefault={changeDefault}
+              />
+            );
+          })}
+        </ul>
       )}
     </button>
   );

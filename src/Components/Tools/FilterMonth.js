@@ -5,7 +5,7 @@ function FilterMonth() {
   const ctx = useContext(Context);
   return (
     <>
-      <div className=" mb-3 border-b-2 pb-2">
+      <div className="pb-2 border-b-2 border-slate-400">
         <div className=" flex justify-center items-center text-slate-400 relative">
           <div className="flex items-center">
             <button className="flex hover:text-lime-500">
@@ -43,7 +43,7 @@ function FilterMonth() {
             </span>
           </button>
         </div>
-        <div className=" flex justify-around items-center mt-2 newFont text-slate-500">
+        <div className=" flex justify-around items-center mt-2 newFont text-slate-600 sm:text-lg">
           <div className=" flex flex-col items-center">
             <p>Expense</p>
             <p className=" text-red-500">
@@ -52,7 +52,7 @@ function FilterMonth() {
           </div>
           <div className=" flex flex-col items-center">
             <p>Income</p>
-            <p className=" text-green-500">
+            <p className=" text-green-600">
               ₹{ctx.currentExpenseBalance.incomeBalance}
             </p>
           </div>
@@ -61,7 +61,7 @@ function FilterMonth() {
             <p
               className={
                 Number(ctx.currentExpenseBalance.totalBalance) >= 0
-                  ? "text-green-500"
+                  ? "text-green-600"
                   : "text-red-500"
               }
             >
@@ -74,6 +74,7 @@ function FilterMonth() {
           </div>
         </div>
       </div>
+      {/* <div className="min-h-[1.5px] bg-slate-400"></div> */}
     </>
   );
 }

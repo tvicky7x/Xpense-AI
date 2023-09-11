@@ -1,7 +1,7 @@
 import React from "react";
 import NormalCard from "../Containers/NormalCard";
 import Container from "../Containers/Container";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SecondNavItem from "./SecondNavItem";
 
 function SecondNav() {
