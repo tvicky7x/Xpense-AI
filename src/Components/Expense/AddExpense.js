@@ -17,7 +17,7 @@ function AddExpense({
       name: "Categories",
       HTMLname: "label",
     },
-    data: `${new Date().toISOString().slice(0, 10)}`,
+    date: `${new Date().toISOString().slice(0, 10)}`,
     time: `${new Date().toTimeString().slice(0, 5)}`,
     note: "",
   },
@@ -40,12 +40,22 @@ function AddExpense({
     setCategory(data);
   }
 
+  // sorting function
+  function sortExpenseByTime(list) {
+    return list.sort((a, b) => {
+      return (
+        new Date(`${b.date},${b.time}`).getTime() -
+        new Date(`${a.date},${a.time}`).getTime()
+      );
+    });
+  }
+
   // Adding Expense Function
   async function addingExpense(e) {
     e.preventDefault();
     const type = isExpense;
     const amount = amountRef.current.value;
-    const data = dataRef.current.value;
+    const date = dataRef.current.value;
     const time = timeRef.current.value;
     const note = noteRef.current.value;
     const category = defaultCategory;
@@ -54,13 +64,13 @@ function AddExpense({
         type: type,
         amount: amount,
         category: category,
-        data: data,
+        date: date,
         time: time,
         note: note,
       };
       await axios.put(
         `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
-        { allExpenseList: [...ctx.allExpenseList, expense] }
+        { allExpenseList: sortExpenseByTime([expense, ...ctx.allExpenseList]) }
       );
       ctx.addingExpenseInContext(expense);
       e.target.reset();
@@ -74,99 +84,101 @@ function AddExpense({
   return (
     <>
       <Modal onClick={alternatingAdding}>
-        <HeaderTitle
-          title={isExpense ? "Add Expense" : "Add Income"}
-          icon={isExpense ? "currency_rupee" : "account_balance_wallet"}
-        />
-        <div className=" grid grid-cols-2 gap-2">
-          <ToggleButton isActive={isExpense} onClick={toggleExpense}>
-            Expense
-          </ToggleButton>
-          <ToggleButton isActive={!isExpense} onClick={toggleExpense}>
-            Income
-          </ToggleButton>
-        </div>
-        <div className=" my-3 text-slate-800">
-          <form action="" onSubmit={addingExpense}>
-            <div className="mb-1 mt-2">
-              {isExpense ? (
-                <DropDown
-                  itemList={ctx.expenseCategories}
-                  changeDefault={changeDefault}
-                  defaultCategory={defaultCategory}
-                />
-              ) : (
-                <DropDown
-                  itemList={ctx.incomeCategories}
-                  changeDefault={changeDefault}
-                  defaultCategory={defaultCategory}
-                />
-              )}
-            </div>
-            <div className=" space-y-1 mb-1">
-              <label htmlFor="" className="text-lg">
-                Amount
-              </label>
-              <input
-                type="number"
-                style={{ outline: "none" }}
-                required
-                min={1}
-                defaultValue={expenseItem.amount}
-                ref={amountRef}
-                className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
-              />
-            </div>
-            <div className=" space-y-1 mb-1">
-              <div className=" grid grid-cols-2 gap-2">
-                <div>
-                  <label htmlFor="" className="text-lg">
-                    Date
-                  </label>
-                  <input
-                    type="date"
-                    style={{ outline: "none" }}
-                    required
-                    ref={dataRef}
-                    defaultValue={expenseItem.data}
-                    className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
+        <div className=" bg-white drop-shadow-lg rounded p-4 w-80 sm:w-96">
+          <HeaderTitle
+            title={isExpense ? "Add Expense" : "Add Income"}
+            icon={isExpense ? "currency_rupee" : "account_balance_wallet"}
+          />
+          <div className=" grid grid-cols-2 gap-2">
+            <ToggleButton isActive={isExpense} onClick={toggleExpense}>
+              Expense
+            </ToggleButton>
+            <ToggleButton isActive={!isExpense} onClick={toggleExpense}>
+              Income
+            </ToggleButton>
+          </div>
+          <div className=" my-3 text-slate-800">
+            <form action="" onSubmit={addingExpense}>
+              <div className="mb-1 mt-2">
+                {isExpense ? (
+                  <DropDown
+                    itemList={ctx.expenseCategories}
+                    changeDefault={changeDefault}
+                    defaultCategory={defaultCategory}
                   />
-                </div>
-                <div>
-                  <label htmlFor="" className="text-lg">
-                    Time
-                  </label>
-                  <input
-                    type="time"
-                    style={{ outline: "none" }}
-                    required
-                    ref={timeRef}
-                    defaultValue={expenseItem.time}
-                    className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                ) : (
+                  <DropDown
+                    itemList={ctx.incomeCategories}
+                    changeDefault={changeDefault}
+                    defaultCategory={defaultCategory}
                   />
+                )}
+              </div>
+              <div className=" space-y-1 mb-1">
+                <label htmlFor="" className="text-lg">
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  style={{ outline: "none" }}
+                  required
+                  min={1}
+                  defaultValue={expenseItem.amount}
+                  ref={amountRef}
+                  className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                />
+              </div>
+              <div className=" space-y-1 mb-1">
+                <div className=" grid grid-cols-2 gap-2">
+                  <div>
+                    <label htmlFor="" className="text-lg">
+                      Date
+                    </label>
+                    <input
+                      type="date"
+                      style={{ outline: "none" }}
+                      required
+                      ref={dataRef}
+                      defaultValue={expenseItem.date}
+                      className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="" className="text-lg">
+                      Time
+                    </label>
+                    <input
+                      type="time"
+                      style={{ outline: "none" }}
+                      required
+                      ref={timeRef}
+                      defaultValue={expenseItem.time}
+                      className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className=" space-y-1 mb-1">
-              <label htmlFor="" className=" text-lg">
-                Add notes <span className=" text-slate-300">(optional)</span>
-              </label>
-              <textarea
-                className=" w-full border rounded border-lime-300 p-2  focus:ring-2 focus:ring-lime-400 focus:border-0"
-                name=""
-                id=""
-                rows="2"
-                ref={noteRef}
-                defaultValue={expenseItem.note}
-                style={{ outline: "none" }}
-              />
-            </div>
-            <div className=" mt-5">
-              <ButtonPrimary type="submit" className="w-full">
-                {isExpense ? "Add Expense" : "Add Income"}
-              </ButtonPrimary>
-            </div>
-          </form>
+              <div className=" space-y-1 mb-1">
+                <label htmlFor="" className=" text-lg">
+                  Add notes <span className=" text-slate-300">(optional)</span>
+                </label>
+                <textarea
+                  className=" w-full border rounded border-lime-300 p-2  focus:ring-2 focus:ring-lime-400 focus:border-0"
+                  name=""
+                  id=""
+                  rows="2"
+                  ref={noteRef}
+                  defaultValue={expenseItem.note}
+                  style={{ outline: "none" }}
+                />
+              </div>
+              <div className=" mt-5">
+                <ButtonPrimary type="submit" className="w-full">
+                  {isExpense ? "Add Expense" : "Add Income"}
+                </ButtonPrimary>
+              </div>
+            </form>
+          </div>
         </div>
       </Modal>
     </>
