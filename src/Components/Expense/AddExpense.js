@@ -72,7 +72,9 @@ function AddExpense({
         `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
         { allExpenseList: sortExpenseByTime([expense, ...ctx.allExpenseList]) }
       );
-      ctx.addingExpenseInContext(expense);
+      ctx.addingExpenseInContext(
+        sortExpenseByTime([expense, ...ctx.allExpenseList])
+      );
       e.target.reset();
     }
   }
