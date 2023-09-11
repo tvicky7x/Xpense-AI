@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { categoriesExpense, categoriesIncome } from "./Categories";
+import Months from "./Months";
+import Days from "./Days";
 
 const Context = createContext({
   token: null,
@@ -14,6 +16,8 @@ const Context = createContext({
     uniqueId: null,
   },
   fireBaseUrl: "",
+  current: { day: null, date: null, month: null, year: null },
+  changeCurrent: () => {},
   getUserInfo: (id) => {},
   LogOutHandler: () => {},
   expenseCategories: [],
@@ -39,6 +43,12 @@ export function ContextProvider({ children }) {
   const [expenseCategories, setExpenseCategories] = useState(categoriesExpense);
   const [incomeCategories, setIncomeCategories] = useState(categoriesIncome);
   const [allExpenseList, setExpenseList] = useState([]);
+  const [current, setCurrent] = useState({
+    day: Days[new Date().getDay()],
+    date: new Date().getDate(),
+    month: Months[new Date().getMonth()],
+    year: new Date().getFullYear(),
+  });
 
   // Get UserInfo
   const getUserInfo = useCallback(async (id) => {
@@ -144,6 +154,38 @@ export function ContextProvider({ children }) {
     setExpenseList(newList);
   }
 
+  // Changing Current
+  function changeCurrent(value, type) {
+    if (type === "month") {
+      const newIndex = Months.indexOf(current.month) + value;
+      if (newIndex > 11) {
+        setCurrent((oldCurrent) => {
+          return {
+            ...oldCurrent,
+            month: Months[0],
+            year: oldCurrent.year + 1,
+          };
+        });
+      } else if (newIndex < 0) {
+        setCurrent((oldCurrent) => {
+          return {
+            ...oldCurrent,
+            month: Months[11],
+            year: oldCurrent.year - 1,
+          };
+        });
+      } else {
+        setCurrent((oldCurrent) => {
+          return {
+            ...oldCurrent,
+            month: Months[newIndex],
+          };
+        });
+      }
+    } else if (type === "year") {
+    }
+  }
+
   // useEffect;
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -160,6 +202,8 @@ export function ContextProvider({ children }) {
         LoginHandler: LoginHandler,
         userInfo: userInfo,
         fireBaseUrl: fireBaseUrl,
+        current: current,
+        changeCurrent: changeCurrent,
         getUserInfo: getUserInfo,
         LogOutHandler: LogOutHandler,
         expenseCategories: expenseCategories,
