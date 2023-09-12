@@ -8,7 +8,7 @@ function FilterMonth() {
       <div className="pb-2 border-b-2 border-slate-400">
         <div className=" flex justify-center items-center text-slate-400 relative">
           <div className="flex items-center">
-            <button className="flex hover:text-lime-500">
+            <button className="flex hover:text-lime-500 hover:-translate-x-1 duration-500">
               <span
                 className="material-symbols-outlined"
                 onClick={() => {
@@ -21,7 +21,7 @@ function FilterMonth() {
             <p className="sm:text-lg newFont text-slate-500 sm:w-40 w-32 text-center">
               {ctx.current.month}, {ctx.current.year}
             </p>
-            <button className="flex hover:text-lime-500">
+            <button className="flex hover:text-lime-500 hover:translate-x-1 duration-500">
               <span
                 className="material-symbols-outlined"
                 onClick={() => {
@@ -33,14 +33,12 @@ function FilterMonth() {
             </button>
           </div>
           <button
-            className="flex items-center -ms-5 absolute right-0"
+            className="flex items-center -ms-5 absolute right-0 hover:text-lime-500 hover:rotate-45 duration-500"
             onClick={() => {
               ctx.changeCurrent(null, "reset");
             }}
           >
-            <span className="material-symbols-outlined hover:text-lime-500">
-              cached
-            </span>
+            <span className="material-symbols-outlined">cached</span>
           </button>
         </div>
         <div className=" flex justify-around items-center mt-2  text-slate-600 sm:text-lg font-medium">

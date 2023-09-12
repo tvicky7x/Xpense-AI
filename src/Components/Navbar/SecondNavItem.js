@@ -10,7 +10,7 @@ function SecondNavItem({ title, icon = "", div, path = "" }) {
         className={({ isActive }) => {
           return isActive
             ? style + " text-lime-500"
-            : style + " text-slate-400";
+            : style + " text-slate-400 hover:text-slate-500";
         }}
       >
         <span className="material-symbols-outlined text-sm sm:text-xl">
