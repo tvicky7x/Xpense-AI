@@ -6,7 +6,7 @@ function ListItem({ expense }) {
   return (
     <>
       <li
-        className="flex items-center py-2 px-1 text-slate-600 hover:bg-lime-100 sm:text-lg"
+        className="flex items-center py-2 px-1 text-slate-600 hover:bg-lime-100 sm:text-lg rounded"
         onClick={() => {
           ctx.editingAddModal(expense);
         }}
