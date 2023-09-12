@@ -27,7 +27,10 @@ function DropDown({ itemList, changeDefault, defaultCategory }) {
         )}
       </div>
       {isOpen && (
-        <ul className="absolute top-full left-0 w-full rounded border divide-y-2 bg-lime-50 divide-lime-200 max-h-52 overflow-y-scroll">
+        <ul
+          className="absolute top-full left-0 w-full rounded border divide-y-2 bg-lime-50 divide-lime-200 max-h-52 overflow-y-scroll"
+          
+        >
           {itemList.map((item) => {
             return (
               <DropItem
