@@ -43,21 +43,21 @@ function FilterMonth() {
             </span>
           </button>
         </div>
-        <div className=" flex justify-around items-center mt-2 newFont text-slate-600 sm:text-lg">
+        <div className=" flex justify-around items-center mt-2  text-slate-600 sm:text-lg font-medium">
           <div className=" flex flex-col items-center">
-            <p>Expense</p>
+            <p className="newFont">Expense</p>
             <p className=" text-red-500">
               ₹{ctx.currentExpenseBalance.expenseBalance}
             </p>
           </div>
           <div className=" flex flex-col items-center">
-            <p>Income</p>
+            <p className="newFont">Income</p>
             <p className=" text-green-600">
               ₹{ctx.currentExpenseBalance.incomeBalance}
             </p>
           </div>
           <div className=" flex flex-col items-center">
-            <p>Total</p>
+            <p className="newFont">Total</p>
             <p
               className={
                 Number(ctx.currentExpenseBalance.totalBalance) >= 0
