@@ -15,7 +15,7 @@ function PieExpense({ pieData }) {
           className=" max-w-xs"
         />
 
-        <div className=" shrink-0 w-[114px]">
+        <div className=" shrink-0 w-[114px] sm:w-[150px]">
           <ul>
             {pieData.map((item) => {
               return <PieLabel key={item.title} data={item} />;

@@ -24,7 +24,7 @@ function Root() {
 
   return (
     <div
-      className=" h-screen overflow-y-scroll pb-4"
+      className=" h-screen overflow-y-scroll pb-6"
       onScroll={(e) => {
         updateScrollState(Math.trunc(e.target.scrollTop));
       }}
