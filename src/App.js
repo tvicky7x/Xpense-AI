@@ -26,7 +26,7 @@ function App() {
     if (idToken) {
       dispatch(logInHandler(idToken));
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
