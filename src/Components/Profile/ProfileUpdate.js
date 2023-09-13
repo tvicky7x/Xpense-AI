@@ -1,36 +1,41 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 import Container from "../Containers/Container";
 import NormalCard from "../Containers/NormalCard";
 import HeaderTitle from "../Containers/HeaderTitle";
 import ButtonPrimary from "../Containers/ButtonPrimary";
 import axios from "axios";
-import Context from "../../Context/Context";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserInfo } from "../../Store/authAction";
 
 function ProfileUpdate() {
-  const ctx = useContext(Context);
+  // Redux
+  const dispatch = useDispatch();
+  const userInfo = useSelector((states) => states.auth.userInfo);
+  const token = useSelector((states) => states.auth.token);
   // Ref
   const nameRef = useRef();
   const photoRef = useRef();
 
   // updateUserInfo
-  async function updateUserInfo(e) {
+  async function updateUserInfoForm(e) {
     e.preventDefault();
     const name = nameRef.current.value;
     let photoUrl = photoRef.current.value;
-    if (ctx.userInfo.photoUrl && !photoUrl) {
-      photoUrl = ctx.userInfo.photoUrl;
+    if (userInfo.photoUrl && !photoUrl) {
+      photoUrl = userInfo.photoUrl;
     }
     try {
       await axios.post(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
         {
-          idToken: ctx.token,
+          idToken: token,
           displayName: name,
           photoUrl: photoUrl,
           returnSecureToken: false,
         }
       );
-      ctx.getUserInfo(ctx.token);
+      dispatch(updateUserInfo(token));
+
       e.target.reset();
     } catch (error) {
       alert(error.massage);
@@ -41,7 +46,7 @@ function ProfileUpdate() {
       <Container>
         <NormalCard>
           <HeaderTitle title={"Profile Update"} icon="manage_accounts" />
-          <form action="" onSubmit={updateUserInfo}>
+          <form action="" onSubmit={updateUserInfoForm}>
             <div className=" grid sm:grid-cols-3 gap-3 text-slate-600">
               <div className=" space-y-1">
                 <label htmlFor="" className=" font-medium">

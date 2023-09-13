@@ -1,24 +1,27 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Card from "../Containers/Card";
-import Context from "../../Context/Context";
 import ButtonPrimary from "../Containers/ButtonPrimary";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../Store/authSlice";
+import { updateUserInfo } from "../../Store/authAction";
 
 function VerifyForm() {
-  const ctx = useContext(Context);
-  const navigate = useNavigate();
-  // useState
-  const [isVerifying, setVerifying] = useState(true);
+  // Redux
+  const dispatch = useDispatch();
+  const isVerifying = useSelector((states) => states.auth.isVerifying);
+  const userInfo = useSelector((states) => states.auth.userInfo);
+  const token = useSelector((states) => states.auth.token);
 
-  // verify handler
   async function verifyEmail() {
     try {
       await axios.post(
         "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyALpXBSjeiujbqD3fRd705go3ToNOgfuyA",
-        { requestType: "VERIFY_EMAIL", idToken: ctx.token }
+        { requestType: "VERIFY_EMAIL", idToken: token }
       );
-      setVerifying(false);
+
+      dispatch(authAction.doneVerifying());
+      // setVerifying(false);
     } catch (error) {
       alert("Verification Error");
     }
@@ -26,7 +29,7 @@ function VerifyForm() {
 
   // check verification
   async function checkVerification() {
-    ctx.getUserInfo(ctx.token);
+    dispatch(updateUserInfo(token));
   }
   return (
     <>
@@ -46,7 +49,7 @@ function VerifyForm() {
             <p className=" text-slate-600">
               A verification link has been sent to{" "}
               <span className=" text-lime-600 font-medium">
-                {ctx.userInfo.email}
+                {userInfo.email}
               </span>
               . Please check your email.
             </p>
@@ -60,7 +63,7 @@ function VerifyForm() {
             <p>
               Email -{" "}
               <span className=" text-lime-600 font-medium">
-                {ctx.userInfo.email}
+                {userInfo.email}
               </span>
             </p>
             <ButtonPrimary onClick={verifyEmail}>Verify</ButtonPrimary>

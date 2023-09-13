@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import Container from "../Containers/Container";
 import HeaderTitle from "../Containers/HeaderTitle";
 import NormalCard from "../Containers/NormalCard";
 import dummy from "../../Assets/Xpense AI.png";
-import Context from "../../Context/Context";
+import { useSelector } from "react-redux";
 
 function ProfileInfo() {
-  const ctx = useContext(Context);
+  const userInfo = useSelector((states) => states.auth.userInfo);
+
   return (
     <>
       <Container>
@@ -14,7 +15,7 @@ function ProfileInfo() {
           <HeaderTitle title={"Profile Info"} icon={"badge"} />
           <div className=" flex space-x-3 sm:space-x-6">
             <img
-              src={!ctx.userInfo.photoUrl ? dummy : ctx.userInfo.photoUrl}
+              src={!userInfo.photoUrl ? dummy : userInfo.photoUrl}
               alt=""
               className=" w-20 h-20 sm:h-40 object-cover sm:w-40 rounded inline"
             />
@@ -22,12 +23,11 @@ function ProfileInfo() {
               <p>
                 Name -{" "}
                 <span className="text-lime-500 capitalize">
-                  {ctx.userInfo.name}
+                  {userInfo.name}
                 </span>
               </p>
               <p>
-                Email -{" "}
-                <span className="text-lime-500">{ctx.userInfo.email}</span>
+                Email - <span className="text-lime-500">{userInfo.email}</span>
               </p>
             </div>
           </div>

@@ -4,10 +4,14 @@ import Navbar from "../Components/Navbar/Navbar";
 import SecondNav from "../Components/Navbar/SecondNav";
 import AddExpense from "../Components/Expense/AddExpense";
 import PulseButton from "../Components/Containers/PulseButton";
-import Context from "../Context/Context";
+import { useDispatch, useSelector } from "react-redux";
+import { addModalAction } from "../Store/addModalSlice";
 
-function Home() {
-  const ctx = useContext(Context);
+function Root() {
+  // Redux
+  const dispatch = useDispatch();
+  const modalState = useSelector((states) => states.addModal.modalState);
+
   const [scrollState, setScrollState] = useState({ value: 0, state: true });
 
   function updateScrollState(value) {
@@ -25,13 +29,15 @@ function Home() {
         updateScrollState(Math.trunc(e.target.scrollTop));
       }}
     >
-      {ctx.addingModal && <AddExpense />}
+      {modalState && <AddExpense />}
       <Navbar />
       <SecondNav />
       <Outlet />
       {scrollState.state && (
         <PulseButton
-          onClick={ctx.editingAddModal}
+          onClick={() => {
+            dispatch(addModalAction.openModal({ expense: false }));
+          }}
           className=" fixed right-6 bottom-6"
         />
       )}
@@ -39,4 +45,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Root;

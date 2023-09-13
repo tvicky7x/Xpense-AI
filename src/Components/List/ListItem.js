@@ -1,14 +1,16 @@
-import React, { useContext } from "react";
-import Context from "../../Context/Context";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { addModalAction } from "../../Store/addModalSlice";
 
 function ListItem({ expense }) {
-  const ctx = useContext(Context);
+  // Redux
+  const dispatch = useDispatch();
   return (
     <>
       <li
         className="flex items-center py-2 px-1 text-slate-600 hover:bg-lime-100 sm:text-lg rounded"
         onClick={() => {
-          ctx.editingAddModal(expense);
+          dispatch(addModalAction.openModal({ expense }));
         }}
       >
         <span className="material-symbols-outlined text-lime-500">

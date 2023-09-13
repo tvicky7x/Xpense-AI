@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
-import Context from "../../Context/Context";
+import React from "react";
 import DateList from "./DateList";
 import Empty from "./Empty";
+import { useSelector } from "react-redux";
 
 function ExpenseList() {
-  const ctx = useContext(Context);
+  // Redux
+  const currentExpenseList = useSelector(
+    (states) => states.expense.currentExpenseList
+  );
   const set = new Set();
-  ctx.currentExpenseList.forEach((item) => {
+  currentExpenseList.forEach((item) => {
     set.add(item.date);
   });
   const dateArray = Array.from(set);
@@ -19,7 +22,7 @@ function ExpenseList() {
           <DateList
             date={date}
             key={date}
-            list={ctx.currentExpenseList.filter((item) => {
+            list={currentExpenseList.filter((item) => {
               return new Date(item.date).getDate() === new Date(date).getDate();
             })}
           />

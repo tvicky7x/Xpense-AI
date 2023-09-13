@@ -1,36 +1,38 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "../Containers/Modal";
 import HeaderTitle from "../Containers/HeaderTitle";
 import ToggleButton from "../Containers/ToggleButton";
-import Context from "../../Context/Context";
 import ButtonPrimary from "../Containers/ButtonPrimary";
 import DropDown from "./DropDown";
 import axios from "axios";
 import ButtonSecondary from "../Containers/ButtonSecondary copy";
+import { useDispatch, useSelector } from "react-redux";
+import { addExpenseList } from "../../Store/expenseAction";
+import { addModalAction } from "../../Store/addModalSlice";
 
 function AddExpense() {
-  const ctx = useContext(Context);
+  // Redux
+  const dispatch = useDispatch();
+  const modalData = useSelector((states) => states.addModal.modalData);
+  const isExpense = useSelector((states) => states.addModal.modalData.type);
+  const expenseCategories = useSelector(
+    (states) => states.addModal.expenseCategories
+  );
+  const incomeCategories = useSelector(
+    (states) => states.addModal.incomeCategories
+  );
+  const fireBaseUrl = useSelector((states) => states.expense.fireBaseUrl);
+  const userInfo = useSelector((states) => states.auth.userInfo);
+  const allExpenseList = useSelector((states) => states.expense.allExpenseList);
+  const categoryNow = useSelector(
+    (states) => states.addModal.modalData.category
+  );
+
   // Ref
   const amountRef = useRef();
   const dataRef = useRef();
   const timeRef = useRef();
   const noteRef = useRef();
-  // states
-  const [isExpense, setExpense] = useState(ctx.ModalData.type);
-  const [defaultCategory, setCategory] = useState(ctx.ModalData.category);
-
-  // Functions
-  function toggleExpense() {
-    setCategory({
-      id: "categories",
-      name: "Categories",
-      HTMLname: "label",
-    });
-    setExpense(!isExpense);
-  }
-  function changeDefault(data) {
-    setCategory(data);
-  }
 
   // sorting function
   function sortExpenseByTime(list) {
@@ -50,7 +52,7 @@ function AddExpense() {
     const date = dataRef.current.value;
     const time = timeRef.current.value;
     const note = noteRef.current.value;
-    const category = defaultCategory;
+    const category = categoryNow;
     if (category.id !== "categories") {
       const expense = {
         id: Math.trunc(Math.random() * 10000).toString(36),
@@ -61,32 +63,32 @@ function AddExpense() {
         time: time,
         note: note,
       };
-      if (ctx.ModalData.amount) {
-        deleteExpense(ctx.ModalData.id, true);
+      if (modalData.amount) {
+        deleteExpense(modalData.id, true);
         const newList = sortExpenseByTime(
-          ctx.allExpenseList.filter((item) => {
-            return item.id !== ctx.ModalData.id;
+          allExpenseList.filter((item) => {
+            return item.id !== modalData.id;
           })
         );
         await axios.put(
-          `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
+          `${fireBaseUrl}/${userInfo.networkEmail}/${userInfo.uniqueId}.json`,
           {
             allExpenseList: sortExpenseByTime([expense, ...newList]),
           }
         );
-        ctx.addingExpenseInContext(sortExpenseByTime([expense, ...newList]));
+        dispatch(addExpenseList(sortExpenseByTime([expense, ...newList])));
       } else {
         await axios.put(
-          `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
+          `${fireBaseUrl}/${userInfo.networkEmail}/${userInfo.uniqueId}.json`,
           {
-            allExpenseList: sortExpenseByTime([expense, ...ctx.allExpenseList]),
+            allExpenseList: sortExpenseByTime([expense, ...allExpenseList]),
           }
         );
-        ctx.addingExpenseInContext(
-          sortExpenseByTime([expense, ...ctx.allExpenseList])
+        dispatch(
+          addExpenseList(sortExpenseByTime([expense, ...allExpenseList]))
         );
       }
-      ctx.closeAddingModal();
+      dispatch(addModalAction.closeModal());
       e.target.reset();
     }
   }
@@ -94,17 +96,17 @@ function AddExpense() {
   // Deleting Edit Function
   async function deleteExpense(id, stay = false) {
     const newList = sortExpenseByTime(
-      ctx.allExpenseList.filter((item) => {
+      allExpenseList.filter((item) => {
         return item.id !== id;
       })
     );
     await axios.put(
-      `${ctx.fireBaseUrl}/${ctx.userInfo.networkEmail}/${ctx.userInfo.uniqueId}.json`,
+      `${fireBaseUrl}/${userInfo.networkEmail}/${userInfo.uniqueId}.json`,
       { allExpenseList: newList }
     );
-    ctx.addingExpenseInContext(newList);
+    dispatch(addExpenseList(newList));
     if (!stay) {
-      ctx.closeAddingModal();
+      dispatch(addModalAction.closeModal());
     }
   }
 
@@ -112,12 +114,18 @@ function AddExpense() {
 
   return (
     <>
-      <Modal onClick={ctx.closeAddingModal}>
+      <Modal
+        onClick={() => {
+          dispatch(addModalAction.closeModal());
+        }}
+      >
         <div className=" bg-white drop-shadow-lg rounded p-4 w-80 sm:w-96">
           <div className=" relative">
             <button
               className=" absolute right-0 flex text-slate-400"
-              onClick={ctx.closeAddingModal}
+              onClick={() => {
+                dispatch(addModalAction.closeModal());
+              }}
             >
               <span className="text-3xl material-symbols-outlined">close</span>
             </button>
@@ -128,29 +136,29 @@ function AddExpense() {
           </div>
 
           <div className=" grid grid-cols-2 gap-2">
-            <ToggleButton isActive={isExpense} onClick={toggleExpense}>
+            <ToggleButton
+              isActive={isExpense}
+              onClick={() => {
+                dispatch(addModalAction.changeExpenseType());
+              }}
+            >
               Expense
             </ToggleButton>
-            <ToggleButton isActive={!isExpense} onClick={toggleExpense}>
+            <ToggleButton
+              isActive={!isExpense}
+              onClick={() => {
+                dispatch(addModalAction.changeExpenseType());
+              }}
+            >
               Income
             </ToggleButton>
           </div>
           <div className=" my-3 text-slate-800">
             <form action="" onSubmit={addingExpense}>
               <div className="mb-1 mt-2">
-                {isExpense ? (
-                  <DropDown
-                    itemList={ctx.expenseCategories}
-                    changeDefault={changeDefault}
-                    defaultCategory={defaultCategory}
-                  />
-                ) : (
-                  <DropDown
-                    itemList={ctx.incomeCategories}
-                    changeDefault={changeDefault}
-                    defaultCategory={defaultCategory}
-                  />
-                )}
+                <DropDown
+                  itemList={isExpense ? expenseCategories : incomeCategories}
+                />
               </div>
               <div className=" space-y-1 mb-1">
                 <label htmlFor="" className="text-lg">
@@ -161,7 +169,7 @@ function AddExpense() {
                   style={{ outline: "none" }}
                   required
                   min={1}
-                  defaultValue={ctx.ModalData.amount}
+                  defaultValue={modalData.amount}
                   ref={amountRef}
                   className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                 />
@@ -177,7 +185,7 @@ function AddExpense() {
                       style={{ outline: "none" }}
                       required
                       ref={dataRef}
-                      defaultValue={ctx.ModalData.date}
+                      defaultValue={modalData.date}
                       className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                     />
                   </div>
@@ -190,7 +198,7 @@ function AddExpense() {
                       style={{ outline: "none" }}
                       required
                       ref={timeRef}
-                      defaultValue={ctx.ModalData.time}
+                      defaultValue={modalData.time}
                       className=" w-full border rounded border-lime-300 h-9 p-2 focus:ring-2 focus:ring-lime-400 focus:border-0"
                     />
                   </div>
@@ -206,11 +214,11 @@ function AddExpense() {
                   id=""
                   rows="2"
                   ref={noteRef}
-                  defaultValue={ctx.ModalData.note}
+                  defaultValue={modalData.note}
                   style={{ outline: "none" }}
                 />
               </div>
-              {!ctx.ModalData.amount && (
+              {!modalData.amount && (
                 <div className=" mt-5">
                   <ButtonPrimary type="submit" className="w-full">
                     {isExpense ? "Add Expense" : "Add Income"}
@@ -218,13 +226,13 @@ function AddExpense() {
                 </div>
               )}
 
-              {ctx.ModalData.amount && (
+              {modalData.amount && (
                 <div className=" mt-5 grid grid-cols-3 gap-x-2">
                   <ButtonSecondary
                     type="button"
                     className=" bg-red-500 text-red-50 hover:bg-red-600"
                     onClick={() => {
-                      deleteExpense(ctx.ModalData.id);
+                      deleteExpense(modalData.id);
                     }}
                   >
                     Delete

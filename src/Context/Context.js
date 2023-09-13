@@ -245,6 +245,7 @@ export function ContextProvider({ children }) {
     setAddingModal(false);
   }
 
+  // editing Modal
   function editingAddModal(data) {
     if (!data.amount) {
       data = {

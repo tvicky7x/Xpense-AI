@@ -1,18 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import Context from "../../Context/Context";
+import { useDispatch } from "react-redux";
+import { logOutHandler } from "../../Store/authAction";
 
 function Navbar() {
-  const ctx = useContext(Context);
+  // Redux
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   return (
     <>
       <div className=" bg-lime-500 py-2 px-3 sm:py-3">
         <div className=" max-w-3xl mx-auto flex justify-end items-center">
           <NavLink to={"/"} className="me-auto">
-            <h1
-              className=" font-semibold text-2xl sm:text-3xl text-lime-50 newFont"
-            >
+            <h1 className=" font-semibold text-2xl sm:text-3xl text-lime-50 newFont">
               Xpense AI{" "}
             </h1>
           </NavLink>
@@ -32,7 +33,7 @@ function Navbar() {
             className=" font-medium bg-lime-200 py-0.5 px-2 sm:py-1 sm:px-3 rounded text-lime-600 ms-2 hover:bg-lime-100"
             onClick={() => {
               navigate("/");
-              ctx.LogOutHandler();
+              dispatch(logOutHandler());
             }}
           >
             Log Out
