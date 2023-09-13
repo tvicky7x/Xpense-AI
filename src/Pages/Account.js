@@ -1,7 +1,12 @@
 import React from "react";
+import AccountOverall from "../Components/Account/AccountOverall";
 
 function Account() {
-  return <div>Account</div>;
+  return (
+    <>
+      <AccountOverall />
+    </>
+  );
 }
 
 export default Account;
