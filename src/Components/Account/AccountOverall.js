@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "../Containers/Container";
 import NormalCard from "../Containers/NormalCard";
-import HeaderTitle from "../Containers/HeaderTitle";
 import { useSelector } from "react-redux";
 
 function AccountOverall() {
@@ -12,7 +11,9 @@ function AccountOverall() {
     <>
       <Container>
         <NormalCard>
-          <HeaderTitle title="Overall" icon="account_balance" />
+          <h2 className="text-slate-500 mb-1 sm:text-2xl text-lg font-semibold text-center newFont">
+            Overall
+          </h2>
           <div className=" text-slate-600 font-medium text-sm sm:text-base">
             <div className="flex justify-evenly">
               <div className="text-center py-3">
