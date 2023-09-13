@@ -1,7 +1,7 @@
 import React from "react";
 
 function ToggleButton({
-  type = "",
+  type = "button",
   className,
   onClick = () => {},
   children,

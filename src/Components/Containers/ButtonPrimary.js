@@ -1,6 +1,6 @@
 import React from "react";
 
-function ButtonPrimary({ type = "", className, onClick = () => {}, children }) {
+function ButtonPrimary({ type = "button", className, onClick = () => {}, children }) {
   const classStyle =
     " bg-lime-400 py-1.5 px-4 rounded hover:bg-lime-500 font-semibold text-lime-950 " +
     className;

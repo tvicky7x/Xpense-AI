@@ -8,7 +8,7 @@ export function logInHandler(idToken) {
     localStorage.setItem("token", idToken);
     setTimeout(() => {
       localStorage.removeItem("token");
-    }, 1000 * 60 * 10);
+    }, 1000 * 60 * 15);
 
     const userInfo = await getUserInfo(idToken);
     dispatch(getExpenseList(userInfo.uniqueId, userInfo.networkEmail));
