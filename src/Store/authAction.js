@@ -5,6 +5,7 @@ import { authAction } from "./authSlice";
 
 export function logInHandler(idToken) {
   return async (dispatch) => {
+    dispatch(authAction.showLoading({ loading: true }));
     localStorage.setItem("token", idToken);
     setTimeout(() => {
       localStorage.removeItem("token");
@@ -13,6 +14,7 @@ export function logInHandler(idToken) {
     const userInfo = await getUserInfo(idToken);
     dispatch(getExpenseList(userInfo.uniqueId, userInfo.networkEmail));
     dispatch(authAction.logIn({ userInfo, idToken }));
+    dispatch(authAction.showLoading({ loading: false }));
   };
 }
 

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getCurrentExpenseList } from "./Store/expenseAction";
 import { logInHandler } from "./Store/authAction";
+import Loading from "./Components/Loading/Loading";
 
 function App() {
   // Redux
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <>
+      <Loading />
       <Routes>
         <Route
           path="/"

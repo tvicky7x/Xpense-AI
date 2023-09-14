@@ -12,7 +12,8 @@ const initialState = {
   },
   isVerifying: true,
   isLogging: true,
-  isForgot:false,
+  isForgot: false,
+  isLoading: false,
 };
 
 const authSlice = createSlice({
@@ -40,12 +41,15 @@ const authSlice = createSlice({
     doneVerifying(states) {
       states.isVerifying = false;
     },
-    alternateLogging(states){
-      states.isLogging = !states.isLogging
+    alternateLogging(states) {
+      states.isLogging = !states.isLogging;
     },
-    alternateForgot(states){
-      states.isForgot = !states.isForgot
-    }
+    alternateForgot(states) {
+      states.isForgot = !states.isForgot;
+    },
+    showLoading(states, actions) {
+      states.isLoading = actions.payload.loading;
+    },
   },
 });
 

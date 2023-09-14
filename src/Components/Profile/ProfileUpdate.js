@@ -62,7 +62,7 @@ function ProfileUpdate() {
               </div>
               <div className=" space-y-1">
                 <label htmlFor="" className=" font-medium">
-                  Photo URL
+                  Photo URL <span className=" text-slate-300">(optional)</span>
                 </label>
                 <input
                   type="text"

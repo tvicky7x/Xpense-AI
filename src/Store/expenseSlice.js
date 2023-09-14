@@ -4,15 +4,15 @@ import { fireBaseUrl } from "./generalData";
 const initialState = {
   allExpenseList: [],
   allExpenseBalance: {
-    incomeBalance: null,
-    expenseBalance: null,
-    totalBalance: null,
+    incomeBalance: 0,
+    expenseBalance: 0,
+    totalBalance: 0,
   },
   currentExpenseList: [],
   currentExpenseBalance: {
-    incomeBalance: null,
-    expenseBalance: null,
-    totalBalance: null,
+    incomeBalance: 0,
+    expenseBalance: 0,
+    totalBalance: 0,
   },
   current: {
     dateString: new Date().toLocaleDateString("en", {

@@ -67,6 +67,11 @@ export const expenseCategories = [
     name: "Transport",
     HTMLname: "commute",
   },
+  {
+    id: "other",
+    name: "Other",
+    HTMLname: "category",
+  },
 ];
 
 export const incomeCategories = [
@@ -94,6 +99,11 @@ export const incomeCategories = [
     id: "sale",
     name: "Sale",
     HTMLname: "sell",
+  },
+  {
+    id: "other",
+    name: "Other",
+    HTMLname: "category",
   },
 ];
 

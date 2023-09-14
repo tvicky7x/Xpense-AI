@@ -11,7 +11,7 @@ function ToggleExpense() {
       <ButtonSecondary
         className={
           showExpense
-            ? "bg-lime-400 text-lime-950 "
+            ? "bg-lime-400 text-lime-800 "
             : " bg-slate-100 text-slate-500 hover:bg-slate-200"
         }
         onClick={() => {
@@ -26,7 +26,7 @@ function ToggleExpense() {
       <ButtonSecondary
         className={
           !showExpense
-            ? "bg-lime-400  text-lime-950 "
+            ? "bg-lime-400  text-lime-800 "
             : " bg-slate-100 text-slate-500 hover:bg-slate-200"
         }
         onClick={() => {

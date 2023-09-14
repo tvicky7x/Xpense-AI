@@ -29,7 +29,7 @@ function DropDown({ itemList }) {
         )}
       </div>
       {dropDown && (
-        <ul className="absolute top-full left-0 w-full rounded border divide-y-2 bg-lime-50 divide-lime-200 max-h-52 overflow-y-scroll">
+        <ul className="absolute top-full left-0 w-full rounded border divide-y-2 bg-slate-50 divide-slate-100 max-h-52 overflow-y-scroll">
           {itemList.map((item) => {
             return <DropItem key={item.id} category={item} />;
           })}

@@ -6,18 +6,18 @@ function Bars({ category, data }) {
 
   return (
     <li className="py-3">
-      <div className="text-slate-700 font-medium text-lg flex newFont justify-between items-center">
-        <span class="material-symbols-outlined text-4xl">
+      <div className="text-slate-500 font-medium sm:text-lg flex newFont justify-between items-center">
+        <span class="material-symbols-outlined text-lime-500">
           {category[0].HTMLname}
         </span>
-        <div className=" w-full me-2  ms-1">
+        <div className=" w-full me-2 ms-1">
           <div className="flex justify-between px-1">
             <p className="newFont ">{data.title}</p>
             <p className={showExpense ? "text-red-500" : "text-green-600"}>
               {`₹${data.value}`}
             </p>
           </div>
-          <div className=" h-4 rounded border overflow-hidden border-slate-200">
+          <div className=" h-3 rounded border overflow-hidden border-slate-200">
             <div
               className=" h-full rounded-s bg-lime-500"
               style={{
@@ -26,7 +26,7 @@ function Bars({ category, data }) {
             ></div>
           </div>
         </div>
-        <p className="newFont">{`${data.percentage}%`}</p>
+        <p className=" text-slate-600">{`${data.percentage}%`}</p>
       </div>
     </li>
   );
